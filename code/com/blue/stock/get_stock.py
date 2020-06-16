@@ -22,7 +22,7 @@ def getHTMLText(url, code="utf-8"):
 
 def getStockList(stock_list=[]):
     # 第一步, 通过中财网获取股票数据
-    sheets = [11, 12, 13, 14, 15, 16, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    sheets = [11, 12, 13, 14]
     url = 'http://quote.cfi.cn/stockList.aspx?t='
     for sheet in sheets:
         html = getHTMLText(url + str(sheet))
@@ -163,11 +163,12 @@ def getStockInfo(stock_list):
             db.cursor().execute(valueString)
 
             ready_count += 1
-            print('\r当前第{0:}个,共{1:}个'.format(ready_count, all_count))  # 打印进度
-            if ready_count % 1000 == 0:
+            print('\r当前第{0:}个,共{1:}个.stock_code:{2:}'.format(ready_count, all_count,stock_code))  # 打印进度
+            if ready_count % 100 == 0:
                 db.commit()
         except:
-            print('\r当前第{0:}个,共{1:}个'.format(ready_count, all_count))
+            ready_count += 1
+            print('\r当前第{0:}个,共{1:}个.stock_code:{2:}'.format(ready_count, all_count,stock_code))
             traceback.print_exc()
     db.commit()
 
